@@ -2,6 +2,7 @@
   <div
     :class="className"
     :style="style"
+    @click="handleClick(index)"
   >
     <div class="front">
       <div>
@@ -21,7 +22,36 @@
 import cs from 'classnames'
 
 export default {
-  props: ['data', 'position', 'deg', 'isInverse', 'isCenter', 'handleClick'],
+  props: {
+    index: {
+      type: Number,
+      required: true
+    },
+    data: {
+      type: Object,
+      required: true
+    },
+    position: {
+      type: Array,
+      required: true
+    },
+    deg: {
+      type: Number,
+      required: true
+    },
+    isInverse: {
+      type: Boolean,
+      required: true
+    },
+    isCenter: {
+      type: Boolean,
+      required: true
+    },
+    handleClick: {
+      type: Function,
+      required: true
+    }
+  },
   computed: {
     className () {
       return cs({

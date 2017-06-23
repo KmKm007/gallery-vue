@@ -1,12 +1,25 @@
 <template lang="html">
-  <span :class="classNames"></span>
+  <span :class="classNames" @click="handleClick(index)"></span>
 </template>
 
 <script>
 import cs from 'classnames'
 
 export default {
-  props: ['isActive', 'handleClick'],
+  props: {
+    index: {
+      type: Number,
+      required: true
+    },
+    isActive: {
+      type: Boolean,
+      required: true
+    },
+    handleClick: {
+      type: Function,
+      required: true
+    }
+  },
   computed: {
     classNames () {
       return cs({

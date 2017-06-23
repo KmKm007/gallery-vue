@@ -1,26 +1,27 @@
 <template>
   <div id="app" class="container">
-    <gallery-element
-      v-for="i in amount"
-      :data="datas[i-1]"
-      :position="positions[i-1]"
-      :deg="degs[i-1]"
-      :key="i-1"
-      :index="i-1"
-      :isInverse="isInverses[i-1]"
-      :isCenter="activeIndex === i-1"
+    <g-element-container
+      :amount="amount"
+      :activeIndex="activeIndex"
+      :datas="datas"
+      :degs="degs"
+      :positions="positions"
+      :isInverses="isInverses"
+      :handleElementClick="onIndexChange"
     />
-    <div class="nav">
-      <nav-item v-for="i in amount" key="i"></nav-item>
-    </div>
+    <nav-container
+      :amount="amount"
+      :activeIndex="activeIndex"
+      :onIndexChange="onIndexChange"
+    />
   </div>
 </template>
 
 <script>
-import GalleryElement from './components/gallery-element'
-import NavItem from './components/nav-item'
+import GElementContainer from './components/g-element-container'
 import datas from './data/imageDatas.json'
 import { getRandom } from './utils/MathUtil'
+import NavContainer from './components/nav-container'
 
 export default {
   data () {
@@ -40,8 +41,8 @@ export default {
   },
   name: 'galleryApp',
   components: {
-    GalleryElement,
-    NavItem
+    GElementContainer,
+    NavContainer
   },
   created () {
     this.initial()
@@ -95,7 +96,6 @@ export default {
           positions.push(createPosition())
         }
       }
-      console.log(positions)
       return positions
     },
     getDegs (isinitial = true) {
@@ -122,13 +122,12 @@ export default {
       return isInverses
     },
     onIndexChange (index) {
-      const { activeIndex, isInverses } = this
-      if (activeIndex === index) {
-        isInverses[index] = !isInverses[index]
+      if (this.activeIndex === index) {
+        this.$set(this.isInverses, index, !this.isInverses[index])
       } else {
-        const isInverses = this.getInverse()
+        this.isInverses = this.getInverse()
         this.activeIndex = index
-        this.isInverses = isInverses
+        this.reverse()
       }
     },
     reverse () {
@@ -157,15 +156,6 @@ body {
   background-color: #cccccc;
 }
 
-.nav {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  left: 0;
-  bottom: 50px;
-}
-
 .back {
   position: absolute;
   top: 0;
@@ -184,8 +174,4 @@ body {
   position: relative;
 }
 
-.nav-item-active {
-  background-color: #999999;
-  transform: scale(1.5, 1.5);
-}
 </style>
