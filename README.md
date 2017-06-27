@@ -3,6 +3,5 @@
 > gallery application written in Vue
 
 
-``` bash
-# DEMO
+> DEMO
 https://kmkm007.github.io/gallery-vue/
